@@ -1,10 +1,13 @@
 package pages;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class SubcategoriesPage {
     private final By SUBCATEGORY_NAME = By.xpath(".//span[@class = 'cat-title']");
+    private final By SUBCATEGORY_PAGE_TITLE =  By.tagName("h1");
     private BaseFunc baseFunc;
 
 
@@ -13,14 +16,18 @@ public class SubcategoriesPage {
     }
 
     public void selectSubcategory(String subcategoryName) {
-        //TODO HW: Add flag here and assertion after the loop
-        for (WebElement we : baseFunc.findElements(SUBCATEGORY_NAME)) {
-          if (we.getText().equals(subcategoryName)) {
-              baseFunc.scrollToElement(we);
-              we.click();
-              break;
 
-          }
+        boolean isSubCatNameFound = false;
+        for (WebElement we : baseFunc.findElements(SUBCATEGORY_NAME)) {
+            if (we.getText().equals(subcategoryName)) {
+                baseFunc.scrollToElement(we);
+                isSubCatNameFound = true;
+                baseFunc.hardClick(we);
+                break;
+            }
         }
+        Assertions.assertTrue(isSubCatNameFound, "SubCatName is not found" + subcategoryName);
+
+        baseFunc.waitForText(SUBCATEGORY_PAGE_TITLE, subcategoryName);
     }
 }

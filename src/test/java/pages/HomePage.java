@@ -12,9 +12,9 @@ public class HomePage {
     private final By MENU_ITEM = By.xpath(".//li[contains(@class, 'submenu-lvl1__list-item--has-child')]");
     private final By MENU = By.xpath(".//div[contains(@class, 'submenu-lvl1--index')]");
     private BaseFunc baseFunc;
+    private final By REGISTRATION_BTN = By.xpath(".//div[@class = 'user-block__title']");
 
     public HomePage(BaseFunc baseFunc) {
-
         this.baseFunc = baseFunc;
     }
 
@@ -39,6 +39,10 @@ public class HomePage {
         Assertions.assertTrue(isSectionFound, "Can't find menu item" + menuItemName);
 
 
+    }
+
+    public void openLoginPage() {
+        baseFunc.click(REGISTRATION_BTN);
     }
 
 }

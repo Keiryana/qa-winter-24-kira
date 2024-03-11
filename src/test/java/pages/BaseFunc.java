@@ -1,14 +1,12 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
@@ -16,14 +14,17 @@ import java.util.List;
 public class BaseFunc {
     private WebDriver browser;
     private WebDriverWait wait;
+    private JavascriptExecutor executor;
 
     public BaseFunc() {
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+        options.addArguments("--disable-notifications");
+
         browser = new ChromeDriver(options);
         browser.manage().window().maximize();
 
         wait = new WebDriverWait(browser, Duration.ofSeconds(5));
+        executor = (JavascriptExecutor) browser;
     }
 
     public void openURL(String url) {
@@ -31,12 +32,19 @@ public class BaseFunc {
             url = "http://" + url;
         }
 
-
         browser.get(url);
     }
 
     public void click(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+    }
+
+    public void hardClick(WebElement we) {
+        try {
+            we.click();
+        } catch (ElementClickInterceptedException e) {
+            executor.executeScript("arguments[0].click();", we);
+        }
     }
 
     public WebElement findElement(By locator) {
@@ -48,8 +56,23 @@ public class BaseFunc {
     }
 
     public void scrollToElement(WebElement we) {
-        JavascriptExecutor executor = (JavascriptExecutor) browser;
         executor.executeScript("arguments[0].scrollIntoView(true);", we);
         executor.executeScript("window.scrollBy(0, 500);");
     }
+
+    public void waitForText(By locator, String text) {
+
+         wait.until(ExpectedConditions.textToBe(locator, text));
+    }
+
+    public void typeText(By locator, String text) {
+        WebElement input = findElement(locator);
+        input.clear();
+        input.sendKeys(text);
+    }
+
+    public void pressEnter(By locator) {
+        findElement(locator).sendKeys(Keys.ENTER);
+    }
+
 }
