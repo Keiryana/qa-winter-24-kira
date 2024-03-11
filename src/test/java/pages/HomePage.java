@@ -15,7 +15,6 @@ public class HomePage {
     private final By REGISTRATION_BTN = By.xpath(".//div[@class = 'user-block__title']");
 
     public HomePage(BaseFunc baseFunc) {
-
         this.baseFunc = baseFunc;
     }
 

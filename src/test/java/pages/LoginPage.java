@@ -8,7 +8,6 @@ public class LoginPage {
 
 
     public LoginPage(BaseFunc baseFunc) {
-
         this.baseFunc = baseFunc;
     }
 
