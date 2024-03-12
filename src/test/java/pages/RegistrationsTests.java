@@ -17,8 +17,8 @@ public class RegistrationsTests {
         LoginPage loginPage = new LoginPage(baseFunc);
         loginPage.openRegistationPage();
 
-//        RegistrationPage registrationPage = new RegistrationPage(baseFunc);
-//        registrationPage.fillInRegistrationForm("Dmitrijs")
+        RegistrationPage registrationPage = new RegistrationPage(baseFunc);
+        registrationPage.fillInRegistrationForm("Kira", "Babinich", "keira@kira.lv");
 
     }
 }
